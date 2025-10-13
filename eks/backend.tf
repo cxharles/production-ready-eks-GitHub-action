@@ -10,8 +10,8 @@ terraform {
     bucket       = "dev-charlesjatto-2025-tf"
     region       = "ca-central-1"
     key          = "dev/terraform.tfstate"
-    use_lockfile = false  #true
-    # dynamodb_table = "Lock-Files"
+    #use_lockfile = false  #true
+    dynamodb_table = "Lock-Files"
     encrypt = true
   }
 }
