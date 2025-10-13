@@ -10,7 +10,7 @@ terraform {
     bucket       = "dev-charlesjatto-2025-tf"
     region       = "ca-central-1"
     key          = "dev/terraform.tfstate"
-    use_lockfile = true #false
+    use_lockfile = false #false
     #dynamodb_table = "Lock-Files"
     encrypt = true
   }
