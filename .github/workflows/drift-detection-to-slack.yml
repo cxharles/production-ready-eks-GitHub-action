@@ -2,20 +2,20 @@ name: 'EKS-Creation-Using-Terraform'
 
 on:
   #workflow_dispatch:
-    inputs:
-      tfvars_file:
-        description: 'Path to the .tfvars file'
-        required: true
-        default: 'dev.tfvars'
-      action:
-        type: choice
-        description: 'Terraform Action'
-        options:
-          - plan
-          - apply
-          - destroy
-        required: true
-        default: 'plan'
+    # inputs:
+    #   tfvars_file:
+    #     description: 'Path to the .tfvars file'
+    #     required: true
+    #     default: 'dev.tfvars'
+    #   action:
+    #     type: choice
+    #     description: 'Terraform Action'
+    #     options:
+    #       - plan
+    #       - apply
+    #       - destroy
+    #     required: true
+    #     default: 'plan'
 
   schedule:
     - cron: '0 * * * *' # Every 1 hour
