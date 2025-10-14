@@ -1,21 +1,12 @@
-name: 'EKS-Creation-Using-Terraform'
+name: 'Terraform Drift Detection'
 
 on:
-  #workflow_dispatch:
-    # inputs:
-    #   tfvars_file:
-    #     description: 'Path to the .tfvars file'
-    #     required: true
-    #     default: 'dev.tfvars'
-    #   action:
-    #     type: choice
-    #     description: 'Terraform Action'
-    #     options:
-    #       - plan
-    #       - apply
-    #       - destroy
-    #     required: true
-    #     default: 'plan'
+  workflow_dispatch:
+    inputs:
+      run_drift_check:
+        description: 'Manually run drift detection'
+        required: true
+        default: 'true'
 
   schedule:
     - cron: '0 * * * *' # Every 1 hour
