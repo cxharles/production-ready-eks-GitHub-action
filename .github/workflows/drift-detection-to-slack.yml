@@ -15,7 +15,7 @@ on:
           - apply
           - destroy
         required: true
-        default: 'apply'
+        default: 'plan'
 
   schedule:
     - cron: '0 * * * *' # Every 1 hour
@@ -24,8 +24,6 @@ env:
   AWS_REGION: ca-central-1
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  TF_VARS_FILE: ${{ github.event.inputs.tfvars_file || 'dev.tfvars' }}
-  ACTION: ${{ github.event.inputs.action || 'plan' }}
 
 permissions:
   contents: read
@@ -33,7 +31,8 @@ permissions:
 
 jobs:
   detect-drift:
-    name: Terraform ${{ env.ACTION }}
+    # 👇 Use fallback for action in name (since env context isn’t available here)
+    name: Terraform ${{ github.event.inputs.action != '' && github.event.inputs.action || 'plan' }}
     runs-on: self-hosted
     environment: production
 
@@ -72,7 +71,8 @@ jobs:
         id: plan
         run: |
           echo "Running Terraform plan to detect drift..."
-          terraform plan -out=tfplan.out -var-file=${{ env.TF_VARS_FILE }} -input=false
+          TFVARS_FILE="${{ github.event.inputs.tfvars_file || 'dev.tfvars' }}"
+          terraform plan -out=tfplan.out -var-file=$TFVARS_FILE -input=false
           if terraform show -no-color tfplan.out | grep -q "No changes"; then
             echo "✅ DRIFT-DETECTOR: No drift detected."
             echo "drift=false" >> $GITHUB_OUTPUT
